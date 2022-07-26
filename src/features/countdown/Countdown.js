@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
-import {addSecond, addMinute, addHour, tick, updateMilestone} from './countdownSlice'
+import {addSecond, addMinute, addHour, tick, updateMilestone, startMilestone} from './countdownSlice'
 
 const Countdown = () => {
     const hours = useSelector((state) => state.countdown.hours);
@@ -19,14 +19,18 @@ const Countdown = () => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-          dispatch(updateMilestone( new Date() ));
-        }, 1000);
+            const d = new Date(); 
+            dispatch(updateMilestone( d.getTime() ) );
+        }, 2000);
         return () => clearInterval(interval);
     }, []);
 
     return(
         <div>
         <section>
+            <div>
+                <button onClick={() => dispatch(startMilestone())}>Azzera</button>
+            </div>
             <p>{milestone}</p>
         </section>
 

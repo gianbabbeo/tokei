@@ -8,14 +8,13 @@ import {createSlice} from "@reduxjs/toolkit"
  * stop - raggiunto lo zero smette il countdown
  */
 const initialState = {
-    start: JSON.stringify( new Date() ),
+    start: 0,
     milestone: 0,
     maxed: false,
     seconds: 3,
     minutes: 2,
     hours: 1,
     stop: false,
-    countdown: 10
 }
 
 export const countdownSlice = createSlice({
@@ -87,11 +86,15 @@ export const countdownSlice = createSlice({
             //} 
         },
         updateMilestone: (state, payload) => {
-            state.milestone = JSON.stringify( payload - new Date(state.start) );
+            state.milestone = parseInt(payload) - state.start;
+        },
+        startMilestone: (state) => {
+            const d = new Date();
+            state.start = state.milestone = d.getTime();
         }
     }
 });
 
-export const {addSecond, addMinute, addHour, tick, updateMilestone} = countdownSlice.actions;
+export const {addSecond, addMinute, addHour, tick, updateMilestone, startMilestone} = countdownSlice.actions;
 
 export default countdownSlice.reducer;
